@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<!-- 
-     Created by compEAReData: 20190313_005743
+<!--
+Created by compEAReData: 20190313_221059
 
 Based on EARe design...
 Rideshare:
+Address(#id, line:STR, apt:STR?, city:CITY, state:STATE, postalCode:INT, saves>Person?, name:STR?, >Request*, >Request*) -n/a
 User(#username, >Person, password:VARCHAR, makes>Request+) -username must be unique
 Driver(#licence_number, >Person, expiration_date:DATE, >Ride+) -expiration_date cant equal curent year
 Person(#id, first_name:STR, last_name:STR, phone:VARCHAR, email:STR, >Address*, is_a>User?, is_a>Driver?, submited_by>VanNotes+) -n/a
@@ -11,146 +12,143 @@ Ride(#id, is>Status, carries>Van, acceptes>Driver, >Request+, created:TIMESTAMP)
 Request(#id, from>Address, to>Address, is>Status, num_of_people:INT, >User, gets>Ride?, created:TIMESTAMP) -number of people cant be more than number of seats available
 Van(#plate_number, fuel:INT, num_of_seat:INT, >Ride*, >Location+, belongs>VanNotes*) -any mechanical issues are added in note
 VanNotes(#id, >Van, >Person, notes:STR) -accident reports and mechanical problems
-Address(#id, line:STR, apt:STR?, city:CITY, state:STATE, postalCode:INT, saves>Person?, name:STR?, >Request*, >Request*) -n/a
-Location(#id, longitude:INT, latitude:INT, records>Van, created:TIMESTAMP)- n/a
+Location(#id, latitude_longitude:STR, records>Van, created:TIMESTAMP)- n/a
 Status(#id, description:STR, >Request*, >Ride*) -list of status
 -->
 <Rideshare>
-  <notes/>
-  <data>
-    <User>
-      <username>multikedir</username>
-      <Person>1</Person>
-      <password>913e450e34a785f11d974f30b</password>
-      <Request>n/a</Request>
-    </User>
-    <User>
-      <username>bobman23</username>
-      <Person>2</Person>
-      <password>0168cd7fd3186086769a9883d</password>
-      <Request>n/a</Request>
-    </User>
-    <Driver>
-      <licence_number>1078591</licence_number>
-      <Person>2</Person>
-      <expiration_date>2/20/2040</expiration_date>
-      <Ride>n/a</Ride>
-    </Driver>
-    <Person>
-      <id>1</id>
-      <first_name>Multezem</first_name>
-      <last_name>Kedir</last_name>
-      <phone>5416366899</phone>
-      <email>mkedir@wou.edu</email>
-      <Address>0</Address>
-      <User>n/a</User>
-      <Driver>n/a</Driver>
-      <VanNotes>n/a</VanNotes>
-    </Person>
-    <Person>
-      <id>2</id>
-      <first_name>Bob</first_name>
-      <last_name>Man</last_name>
-      <phone>5412025868</phone>
-      <email>manbo@wou.edu</email>
-      <Address>1</Address>
-      <User>n/a</User>
-      <Driver>n/a</Driver>
-      <VanNotes>n/a</VanNotes>
-    </Person>
-    <Ride>
-      <id>3</id>
-      <Status>2</Status>
-      <Van>942FLQ</Van>
-      <Driver>1078591</Driver>
-      <Request>n/a</Request>
-      <created/>
-    </Ride>
-    <Request>
-      <id>1</id>
-      <Address>1</Address>
-      <Address>2</Address>
-      <Status>1</Status>
-      <num_of_people>6</num_of_people>
-      <User>1</User>
-      <Ride>1</Ride>
-      <created/>
-    </Request>
-    <Van>
-      <plate_number>942FLQ</plate_number>
-      <fuel>80</fuel>
-      <num_of_seat>12</num_of_seat>
-      <Ride>n/a</Ride>
-      <Location>n/a</Location>
-      <VanNotes>n/a</VanNotes>
-    </Van>
-    <VanNotes>
-      <id>1</id>
-      <Van>942FLQ</Van>
-      <Person>2</Person>
-      <notes>when I</notes>
-    </VanNotes>
-    <VanNotes>
-      <id>2</id>
-      <Van>942FLQ</Van>
-      <Person>1</Person>
-      <notes>driver was rude and she hit a</notes>
-    </VanNotes>
-    <Address>
-      <id>1</id>
-      <line>175 Stadium Dr N</line>
-      <apt>A</apt>
-      <city>Monmouth</city>
-      <state>OR</state>
-      <postalCode>97361</postalCode>
-      <Person>NULL</Person>
-      <name>NULL</name>
-      <Request>n/a</Request>
-      <Request/>
-    </Address>
-    <Address>
-      <id>2</id>
-      <line>400 Southgate Dr S</line>
-      <apt>NULL</apt>
-      <city>Monmouth</city>
-      <state>OR</state>
-      <postalCode>97361</postalCode>
-      <Person>1</Person>
-      <name>home</name>
-      <Request>n/a</Request>
-      <Request/>
-    </Address>
-    <Location>
-      <id>1</id>
-      <longitude>44.853206-123.237461</longitude>
-      <latitude>942FLQ</latitude>
-      <Van/>
-      <created/>
-    </Location>
-    <Location>
-      <id>2</id>
-      <longitude>44.851929-123.237365</longitude>
-      <latitude>942FLQ</latitude>
-      <Van/>
-      <created/>
-    </Location>
-    <Status>
-      <id>1</id>
-      <description>acepted</description>
-      <Request>n/a</Request>
-      <Ride>n/a</Ride>
-    </Status>
-    <Status>
-      <id>2</id>
-      <description>in progress</description>
-      <Request>n/a</Request>
-      <Ride>n/a</Ride>
-    </Status>
-    <Status>
-      <id>3</id>
-      <description>canceled</description>
-      <Request>n/a</Request>
-      <Ride>n/a</Ride>
-    </Status>
-  </data>
+<notes/>
+<data>
+  <Address>
+    <id>1</id>
+    <line>175 Stadium Dr N</line>
+    <apt>A</apt>
+    <city>Monmouth</city>
+    <state>OR</state>
+    <postalCode>97361</postalCode>
+    <Person>NULL</Person>
+    <name>NULL</name>
+    <Request>n/a</Request>
+    <Request>n/a</Request>
+  </Address>
+  <Address>
+    <id>2</id>
+    <line>400 Southgate Dr S</line>
+    <apt>NULL</apt>
+    <city>Monmouth</city>
+    <state>OR</state>
+    <postalCode>97361</postalCode>
+    <Person>1</Person>
+    <name>home</name>
+    <Request>n/a</Request>
+    <Request>n/a</Request>
+  </Address>
+  <User>
+    <username>multikedir</username>
+    <Person>1</Person>
+    <password>913e450e34a785f11d974f30b</password>
+    <Request>n/a</Request>
+  </User>
+  <User>
+    <username>bobman23</username>
+    <Person>2</Person>
+    <password>0168cd7fd3186086769a9883d</password>
+    <Request>n/a</Request>
+  </User>
+  <Driver>
+    <licence_number>1078591</licence_number>
+    <Person>2</Person>
+    <expiration_date>2040-02-20</expiration_date>
+    <Ride>n/a</Ride>
+  </Driver>
+  <Person>
+    <id>1</id>
+    <first_name>Multezem</first_name>
+    <last_name>Kedir</last_name>
+    <phone>5416366899</phone>
+    <email>mkedir@wou.edu</email>
+    <Address>n/a</Address>
+    <User>n/a</User>
+    <Driver>n/a</Driver>
+    <VanNotes>n/a</VanNotes>
+  </Person>
+  <Person>
+    <id>2</id>
+    <first_name>Bob</first_name>
+    <last_name>Man</last_name>
+    <phone>5412025868</phone>
+    <email>manbo@wou.edu</email>
+    <Address>n/a</Address>
+    <User>n/a</User>
+    <Driver>n/a</Driver>
+    <VanNotes>n/a</VanNotes>
+  </Person>
+  <Ride>
+    <id>1</id>
+    <Status>2</Status>
+    <Van>942FLQ</Van>
+    <Driver>1078591</Driver>
+    <Request>n/a</Request>
+    <created>CURRENT</created>
+  </Ride>
+  <Request>
+    <id>1</id>
+    <Address>1</Address>
+    <Address>2</Address>
+    <Status>1</Status>
+    <num_of_people>6</num_of_people>
+    <User>1</User>
+    <Ride>1</Ride>
+    <created>CURRENT</created>
+  </Request>
+  <Van>
+    <plate_number>942FLQ</plate_number>
+    <fuel>80</fuel>
+    <num_of_seat>12</num_of_seat>
+    <Ride>n/a</Ride>
+    <Location>n/a</Location>
+    <VanNotes>n/a</VanNotes>
+  </Van>
+  <VanNotes>
+    <id>1</id>
+    <Van>942FLQ</Van>
+    <Person>2</Person>
+    <notes>was driving down campus way I</notes>
+  </VanNotes>
+  <VanNotes>
+    <id>2</id>
+    <Van>942FLQ</Van>
+    <Person>1</Person>
+    <notes>driver was rude and she hit a</notes>
+  </VanNotes>
+  <Location>
+    <id>1</id>
+    <latitude_longitude>44.853206 123.237461</latitude_longitude>
+    <Van>942FLQ</Van>
+    <created>CURRENT</created>
+  </Location>
+  <Location>
+    <id>2</id>
+    <latitude_longitude>44.851929 123.237365</latitude_longitude>
+    <Van>942FLQ</Van>
+    <created>CURRENT</created>
+  </Location>
+  <Status>
+    <id>1</id>
+    <description>acepted</description>
+    <Request>n/a</Request>
+    <Ride>n/a</Ride>
+  </Status>
+  <Status>
+    <id>2</id>
+    <description>in progress</description>
+    <Request>n/a</Request>
+    <Ride>n/a</Ride>
+  </Status>
+  <Status>
+    <id>3</id>
+    <description>canceled</description>
+    <Request>n/a</Request>
+    <Ride>n/a</Ride>
+  </Status>
+</data>
 </Rideshare>

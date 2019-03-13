@@ -1,46 +1,45 @@
 <?xml version="1.0"?>
-<!-- 
-     Created by compEAReDesign: 20190313_005743
+<!--
+Created by compEAReDesign: 20190313_221059
 
 Based on EARe design...
 Rideshare:
-
-
+Address(#id, line:STR, apt:STR?, city:CITY, state:STATE, postalCode:INT, saves>Person?, name:STR?, >Request*, >Request*) -n/a
+1, 175 Stadium Dr N, A, Monmouth, OR, 97361, NULL, NULL, n/a, n/a
+2, 400 Southgate Dr S, NULL, Monmouth, OR, 97361, 1, home, n/a, n/a
 
 User(#username, >Person, password:VARCHAR, makes>Request+) -username must be unique
 multikedir, 1, 913e450e34a785f11d974f30b, n/a
 bobman23, 2, 0168cd7fd3186086769a9883d, n/a
 
 Driver(#licence_number, >Person, expiration_date:DATE, >Ride+) -expiration_date cant equal curent year
-1078591, 2, 2/20/2040, n/a, n/a
+1078591, 2, 2040-02-20, n/a, n/a
 
 Person(#id, first_name:STR, last_name:STR, phone:VARCHAR, email:STR, >Address*, is_a>User?, is_a>Driver?, submited_by>VanNotes+) -n/a
-1, Multezem, Kedir, 5416366899, mkedir@wou.edu, 0, n/a, n/a, n/a
-2, Bob, Man, 5412025868, manbo@wou.edu, 1, n/a, n/a, n/a
+1, Multezem, Kedir, 5416366899, mkedir@wou.edu, n/a, n/a, n/a, n/a
+2, Bob, Man, 5412025868, manbo@wou.edu, n/a, n/a, n/a, n/a
 
 Ride(#id, is>Status, carries>Van, acceptes>Driver, >Request+, created:TIMESTAMP) -created after a driver acceptance request accepts
-3, 2, 942FLQ, 1078591, n/a
+1, 2, 942FLQ, 1078591, n/a, CURRENT
 
 Request(#id, from>Address, to>Address, is>Status, num_of_people:INT, >User, gets>Ride?, created:TIMESTAMP) -number of people cant be more than number of seats available
-1, 1, 2, 1, 6, 1, 1
+1, 1, 2, 1, 6, 1, 1, CURRENT
 
 Van(#plate_number, fuel:INT, num_of_seat:INT, >Ride*, >Location+, belongs>VanNotes*) -any mechanical issues are added in note
 942FLQ, 80, 12, n/a, n/a, n/a
 
 VanNotes(#id, >Van, >Person, notes:STR) -accident reports and mechanical problems
-1, 942FLQ, 2, when I was driving down campus way I hit a deer
+1, 942FLQ, 2, was driving down campus way I hit a deer
 2, 942FLQ, 1, driver was rude and she hit a deer
 
 
 
-Address(#id, line:STR, apt:STR?, city:CITY, state:STATE, postalCode:INT, saves>Person?, name:STR?, >Request*, >Request*) -n/a
-1, 175 Stadium Dr N, A, Monmouth, OR, 97361, NULL, NULL, n/a
-2, 400 Southgate Dr S, NULL, Monmouth, OR, 97361, 1, home, n/a
 
 
-Location(#id, longitude:INT, latitude:INT, records>Van, created:TIMESTAMP)- n/a
-1, 44.853206,-123.237461, 942FLQ
-2, 44.851929,-123.237365, 942FLQ
+
+Location(#id, latitude_longitude:STR, records>Van, created:TIMESTAMP)- n/a
+1, 44.853206 123.237461, 942FLQ, CURRENT
+2, 44.851929 123.237365, 942FLQ, CURRENT
 
 
 Status(#id, description:STR, >Request*, >Ride*) -list of status
@@ -49,95 +48,94 @@ Status(#id, description:STR, >Request*, >Ride*) -list of status
 3, canceled, n/a, n/a
 -->
 <entities>
-  <focus>Rideshare</focus>
-  <entity name="User">
-    <attribute name="username" min="1" max="1" type="ID"/>
-    <attribute name="Person" min="1" max="1" type="REF"/>
-    <attribute name="password" min="1" max="1" type="VARCHAR"/>
-    <attribute name="Request" min="1" max="*" type="REF" relationship="makes"/>
-    <rules>username must be unique</rules>
-  </entity>
-  <entity name="Driver">
-    <attribute name="licence_number" min="1" max="1" type="ID"/>
-    <attribute name="Person" min="1" max="1" type="REF"/>
-    <attribute name="expiration_date" min="1" max="1" type="DATE"/>
-    <attribute name="Ride" min="1" max="*" type="REF"/>
-    <rules>expiration_date cant equal curent year</rules>
-  </entity>
-  <entity name="Person">
-    <attribute name="id" min="1" max="1" type="ID"/>
-    <attribute name="first_name" min="1" max="1" type="STR"/>
-    <attribute name="last_name" min="1" max="1" type="STR"/>
-    <attribute name="phone" min="1" max="1" type="VARCHAR"/>
-    <attribute name="email" min="1" max="1" type="STR"/>
-    <attribute name="Address" min="0" max="*" type="REF"/>
-    <attribute name="User" min="0" max="1" type="REF" relationship="is_a"/>
-    <attribute name="Driver" min="0" max="1" type="REF" relationship="is_a"/>
-    <attribute name="VanNotes" min="1" max="*" type="REF" relationship="submited_by"/>
-    <rules>n/a</rules>
-  </entity>
-  <entity name="Ride">
-    <attribute name="id" min="1" max="1" type="ID"/>
-    <attribute name="Status" min="1" max="1" type="REF" relationship="is"/>
-    <attribute name="Van" min="1" max="1" type="REF" relationship="carries"/>
-    <attribute name="Driver" min="1" max="1" type="REF" relationship="acceptes"/>
-    <attribute name="Request" min="1" max="*" type="REF"/>
-    <attribute name="created" min="1" max="1" type="TIMESTAMP"/>
-    <rules>created after a driver acceptance request accepts</rules>
-  </entity>
-  <entity name="Request">
-    <attribute name="id" min="1" max="1" type="ID"/>
-    <attribute name="Address" min="1" max="1" type="REF" relationship="from"/>
-    <attribute name="Address" min="1" max="1" type="REF" relationship="to"/>
-    <attribute name="Status" min="1" max="1" type="REF" relationship="is"/>
-    <attribute name="num_of_people" min="1" max="1" type="INT"/>
-    <attribute name="User" min="1" max="1" type="REF"/>
-    <attribute name="Ride" min="0" max="1" type="REF" relationship="gets"/>
-    <attribute name="created" min="1" max="1" type="TIMESTAMP"/>
-    <rules>number of people cant be more than number of seats available</rules>
-  </entity>
-  <entity name="Van">
-    <attribute name="plate_number" min="1" max="1" type="ID"/>
-    <attribute name="fuel" min="1" max="1" type="INT"/>
-    <attribute name="num_of_seat" min="1" max="1" type="INT"/>
-    <attribute name="Ride" min="0" max="*" type="REF"/>
-    <attribute name="Location" min="1" max="*" type="REF"/>
-    <attribute name="VanNotes" min="0" max="*" type="REF" relationship="belongs"/>
-    <rules>any mechanical issues are added in note</rules>
-  </entity>
-  <entity name="VanNotes">
-    <attribute name="id" min="1" max="1" type="ID"/>
-    <attribute name="Van" min="1" max="1" type="REF"/>
-    <attribute name="Person" min="1" max="1" type="REF"/>
-    <attribute name="notes" min="1" max="1" type="STR"/>
-    <rules>accident reports and mechanical problems</rules>
-  </entity>
-  <entity name="Address">
-    <attribute name="id" min="1" max="1" type="ID"/>
-    <attribute name="line" min="1" max="1" type="STR"/>
-    <attribute name="apt" min="0" max="1" type="STR"/>
-    <attribute name="city" min="1" max="1" type="CITY"/>
-    <attribute name="state" min="1" max="1" type="STATE"/>
-    <attribute name="postalCode" min="1" max="1" type="INT"/>
-    <attribute name="Person" min="0" max="1" type="REF" relationship="saves"/>
-    <attribute name="name" min="0" max="1" type="STR"/>
-    <attribute name="Request" min="0" max="*" type="REF"/>
-    <attribute name="Request" min="0" max="*" type="REF"/>
-    <rules>n/a</rules>
-  </entity>
-  <entity name="Location">
-    <attribute name="id" min="1" max="1" type="ID"/>
-    <attribute name="longitude" min="1" max="1" type="INT"/>
-    <attribute name="latitude" min="1" max="1" type="INT"/>
-    <attribute name="Van" min="1" max="1" type="REF" relationship="records"/>
-    <attribute name="created" min="1" max="1" type="TIMESTAMP"/>
-    <rules>n/a</rules>
-  </entity>
-  <entity name="Status">
-    <attribute name="id" min="1" max="1" type="ID"/>
-    <attribute name="description" min="1" max="1" type="STR"/>
-    <attribute name="Request" min="0" max="*" type="REF"/>
-    <attribute name="Ride" min="0" max="*" type="REF"/>
-    <rules>list of status</rules>
-  </entity>
+<focus>Rideshare</focus>
+<entity name="Address">
+  <attribute name="id" min="1" max="1" type="ID"></attribute>
+  <attribute name="line" min="1" max="1" type="STR"></attribute>
+  <attribute name="apt" min="0" max="1" type="STR"></attribute>
+  <attribute name="city" min="1" max="1" type="CITY"></attribute>
+  <attribute name="state" min="1" max="1" type="STATE"></attribute>
+  <attribute name="postalCode" min="1" max="1" type="INT"></attribute>
+  <attribute name="Person" min="0" max="1" type="REF" relationship="saves"></attribute>
+  <attribute name="name" min="0" max="1" type="STR"></attribute>
+  <attribute name="Request" min="0" max="*" type="REF"></attribute>
+  <attribute name="Request" min="0" max="*" type="REF"></attribute>
+  <rules>n/a</rules>
+</entity>
+<entity name="User">
+  <attribute name="username" min="1" max="1" type="ID"></attribute>
+  <attribute name="Person" min="1" max="1" type="REF"></attribute>
+  <attribute name="password" min="1" max="1" type="VARCHAR"></attribute>
+  <attribute name="Request" min="1" max="*" type="REF" relationship="makes"></attribute>
+  <rules>username must be unique</rules>
+</entity>
+<entity name="Driver">
+  <attribute name="licence_number" min="1" max="1" type="ID"></attribute>
+  <attribute name="Person" min="1" max="1" type="REF"></attribute>
+  <attribute name="expiration_date" min="1" max="1" type="DATE"></attribute>
+  <attribute name="Ride" min="1" max="*" type="REF"></attribute>
+  <rules>expiration_date cant equal curent year</rules>
+</entity>
+<entity name="Person">
+  <attribute name="id" min="1" max="1" type="ID"></attribute>
+  <attribute name="first_name" min="1" max="1" type="STR"></attribute>
+  <attribute name="last_name" min="1" max="1" type="STR"></attribute>
+  <attribute name="phone" min="1" max="1" type="VARCHAR"></attribute>
+  <attribute name="email" min="1" max="1" type="STR"></attribute>
+  <attribute name="Address" min="0" max="*" type="REF"></attribute>
+  <attribute name="User" min="0" max="1" type="REF" relationship="is_a"></attribute>
+  <attribute name="Driver" min="0" max="1" type="REF" relationship="is_a"></attribute>
+  <attribute name="VanNotes" min="1" max="*" type="REF" relationship="submited_by"></attribute>
+  <rules>n/a</rules>
+</entity>
+<entity name="Ride">
+  <attribute name="id" min="1" max="1" type="ID"></attribute>
+  <attribute name="Status" min="1" max="1" type="REF" relationship="is"></attribute>
+  <attribute name="Van" min="1" max="1" type="REF" relationship="carries"></attribute>
+  <attribute name="Driver" min="1" max="1" type="REF" relationship="acceptes"></attribute>
+  <attribute name="Request" min="1" max="*" type="REF"></attribute>
+  <attribute name="created" min="1" max="1" type="TIMESTAMP"></attribute>
+  <rules>created after a driver acceptance request accepts</rules>
+</entity>
+<entity name="Request">
+  <attribute name="id" min="1" max="1" type="ID"></attribute>
+  <attribute name="Address" min="1" max="1" type="REF" relationship="from"></attribute>
+  <attribute name="Address" min="1" max="1" type="REF" relationship="to"></attribute>
+  <attribute name="Status" min="1" max="1" type="REF" relationship="is"></attribute>
+  <attribute name="num_of_people" min="1" max="1" type="INT"></attribute>
+  <attribute name="User" min="1" max="1" type="REF"></attribute>
+  <attribute name="Ride" min="0" max="1" type="REF" relationship="gets"></attribute>
+  <attribute name="created" min="1" max="1" type="TIMESTAMP"></attribute>
+  <rules>number of people cant be more than number of seats available</rules>
+</entity>
+<entity name="Van">
+  <attribute name="plate_number" min="1" max="1" type="ID"></attribute>
+  <attribute name="fuel" min="1" max="1" type="INT"></attribute>
+  <attribute name="num_of_seat" min="1" max="1" type="INT"></attribute>
+  <attribute name="Ride" min="0" max="*" type="REF"></attribute>
+  <attribute name="Location" min="1" max="*" type="REF"></attribute>
+  <attribute name="VanNotes" min="0" max="*" type="REF" relationship="belongs"></attribute>
+  <rules>any mechanical issues are added in note</rules>
+</entity>
+<entity name="VanNotes">
+  <attribute name="id" min="1" max="1" type="ID"></attribute>
+  <attribute name="Van" min="1" max="1" type="REF"></attribute>
+  <attribute name="Person" min="1" max="1" type="REF"></attribute>
+  <attribute name="notes" min="1" max="1" type="STR"></attribute>
+  <rules>accident reports and mechanical problems</rules>
+</entity>
+<entity name="Location">
+  <attribute name="id" min="1" max="1" type="ID"></attribute>
+  <attribute name="latitude_longitude" min="1" max="1" type="STR"></attribute>
+  <attribute name="Van" min="1" max="1" type="REF" relationship="records"></attribute>
+  <attribute name="created" min="1" max="1" type="TIMESTAMP"></attribute>
+  <rules>n/a</rules>
+</entity>
+<entity name="Status">
+  <attribute name="id" min="1" max="1" type="ID"></attribute>
+  <attribute name="description" min="1" max="1" type="STR"></attribute>
+  <attribute name="Request" min="0" max="*" type="REF"></attribute>
+  <attribute name="Ride" min="0" max="*" type="REF"></attribute>
+  <rules>list of status</rules>
+</entity>
 </entities>

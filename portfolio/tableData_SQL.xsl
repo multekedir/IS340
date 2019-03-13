@@ -82,6 +82,7 @@ INSERT INTO </xsl:text><xsl:value-of select="local-name()"/><xsl:text> VALUES (
     <xsl:when test="normalize-space(text())=$nullValue"><xsl:text>NULL</xsl:text></xsl:when>
     <xsl:when test='contains(text(),"&SQ;")'><xsl:text>"</xsl:text><xsl:value-of select="."/><xsl:text>"</xsl:text></xsl:when>  <!-- Contains single-quote -->
     <xsl:when test="number(text())=text()"><xsl:value-of select="."/></xsl:when>  <!-- A number, don't quote it -->
+    <xsl:when test="text() = 'CURRENT'"><xsl:text>NOW()</xsl:text></xsl:when>  <!-- if it is  CURRENT change to NOW() used for timestamp-->
     <xsl:otherwise><xsl:text>'</xsl:text><xsl:value-of select="."/><xsl:text>'</xsl:text></xsl:otherwise>
   </xsl:choose>
 

@@ -1,15 +1,25 @@
-/*  UNCOMMENT to start over:
 DROP DATABASE IF EXISTS Rideshare;
-*/
 /*  Schema types (schemaTypes):
       ENTITY
     Design data types mapped to SQL data types (dataTypes):
-      ID=CHAR(10);REF=CHAR(10);VARCHAR=VARCHAR(32);TIMESTAMP=TIMESTAMP;INT=INT;STR=TEXT;DATE=DATE;NAME=CHAR(20);PHONE=VARCHAR(12);BIT=BIT;CITY=CHAR(22);STATE=CHAR(2)
+      ID=CHAR(10);REF=CHAR(10);VARCHAR=VARCHAR(32);TIMESTAMP=TIMESTAMP;INT=INT;STR=TEXT;DATE=DATE;NAME=CHAR(20);PHONE=VARCHAR(12);BIT=BIT;CITY=CHAR(15);STATE=CHAR(2)
     ID/Reference constraint suffixes (idSuffix, refSuffix):
       _PK, _FK
 */
 CREATE DATABASE IF NOT EXISTS Rideshare;
 USE Rideshare;
+
+CREATE TABLE Address (
+  id              CHAR(10)   NOT NULL  /* PK */,
+  line            TEXT       NOT NULL,
+  apt             TEXT           NULL,
+  city            CHAR(15)   NOT NULL,
+  state           CHAR(2)    NOT NULL,
+  postalCode      INT        NOT NULL,
+  Person          CHAR(10)       NULL,
+  name            TEXT           NULL,
+      CONSTRAINT  Address_PK  PRIMARY KEY (id)
+);
 
 CREATE TABLE User (
   username        CHAR(10)   NOT NULL  /* PK */,
@@ -45,8 +55,8 @@ CREATE TABLE Ride (
 
 CREATE TABLE Request (
   id              CHAR(10)   NOT NULL  /* PK */,
-  Address         CHAR(10)   NOT NULL,
-  Address         CHAR(10)   NOT NULL,
+  from_Address         CHAR(10)   NOT NULL,
+  to_Address         CHAR(10)   NOT NULL,
   Status          CHAR(10)   NOT NULL,
   num_of_people   INT        NOT NULL,
   User            CHAR(10)   NOT NULL,
@@ -70,21 +80,9 @@ CREATE TABLE VanNotes (
       CONSTRAINT  VanNotes_PK  PRIMARY KEY (id)
 );
 
-CREATE TABLE Address (
-  id              CHAR(10)   NOT NULL  /* PK */,
-  line            TEXT       NOT NULL,
-  apt             TEXT           NULL,
-  city            CHAR(22)   NOT NULL,
-  state           CHAR(2)    NOT NULL,
-  postalCode      INT        NOT NULL,
-  name            TEXT           NULL,
-      CONSTRAINT  Address_PK  PRIMARY KEY (id)
-);
-
 CREATE TABLE Location (
   id              CHAR(10)   NOT NULL  /* PK */,
-  longitude       INT        NOT NULL,
-  latitude        INT        NOT NULL,
+  latitude_longitude  TEXT       NOT NULL,
   Van             CHAR(10)   NOT NULL,
   created         TIMESTAMP  NOT NULL,
       CONSTRAINT  Location_PK  PRIMARY KEY (id)

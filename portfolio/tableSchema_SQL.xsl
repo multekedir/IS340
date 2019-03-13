@@ -100,8 +100,17 @@ CREATE TABLE </xsl:text><xsl:value-of select="@name"/><xsl:text> (
     <xsl:text>,
 </xsl:text>
   </xsl:if>
-  <xsl:text>  </xsl:text><xsl:value-of select="@name"/>
-  <xsl:value-of select="substring('             ',string-length(@name))"/>
+  <!-- Disambiguate attribute names  -->
+  <xsl:choose>
+     <xsl:when test="@name=preceding-sibling::attribute/@name or @name=following-sibling::attribute/@name">
+       <xsl:text>  </xsl:text><xsl:value-of select="@relationship"/><xsl:text>_</xsl:text><xsl:value-of select="@name"/>
+     </xsl:when>
+     <xsl:otherwise>
+       <xsl:text>  </xsl:text><xsl:value-of select="@name"/>
+     </xsl:otherwise>
+  </xsl:choose>
+
+<xsl:value-of select="substring('             ',string-length(@name))"/>
 
   <xsl:choose>
     <xsl:when test="@type and string-length(@type)>0 and contains(concat(';',$dataTypes),concat(';',@type,'='))">
@@ -109,7 +118,7 @@ CREATE TABLE </xsl:text><xsl:value-of select="@name"/><xsl:text> (
       <xsl:text>  </xsl:text><xsl:value-of select="$mappedType"/>
       <xsl:value-of select="substring('        ',string-length($mappedType))"/>
     </xsl:when>
-    <xsl:when test="not(@type) 
+    <xsl:when test="not(@type)
         or (@type and not(contains(concat(';',$dataTypes),concat(';',@type,'='))) and contains(concat(';',$dataTypes),';DEFAULT='))">
       <xsl:variable name="mappedType"><xsl:value-of select="substring-before(substring-after(concat(';',$dataTypes,';'),';DEFAULT='),';')"/></xsl:variable>
       <xsl:text>  /* DEFAULT DATA TYPE: */ </xsl:text><xsl:value-of select="$mappedType"/>
