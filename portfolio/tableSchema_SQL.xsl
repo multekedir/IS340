@@ -17,10 +17,9 @@
     <xsl:otherwise>NO_FOCUS</xsl:otherwise></xsl:choose></xsl:variable>
 
   <xsl:if test="contains($schemaTypes,'ENT')">
-    <xsl:text>/*  UNCOMMENT to start over:
-DROP DATABASE IF EXISTS </xsl:text><xsl:value-of select="$focus"/><xsl:text>;
-*/
-</xsl:text>
+    <xsl:text>DROP DATABASE IF EXISTS </xsl:text><xsl:value-of select="$focus"/>
+    <xsl:text>;
+    </xsl:text>
   </xsl:if>
   <xsl:text>/*  </xsl:text>
   <xsl:if test="$timestamp">
@@ -68,7 +67,7 @@ DROP DATABASE IF EXISTS </xsl:text><xsl:value-of select="$focus"/><xsl:text>;
   </xsl:if>
 
 <xsl:if test="contains($schemaTypes,'REL')">
-  <xsl:apply-templates select="//attribute[(@type='REF' or @relationship='#') and @max!='*']" mode="addFKs"/>
+  <xsl:apply-templates select="//attribute[(@type='REF' or @relationship='#') and (@max!='*')]" mode="addFKs"/>
 </xsl:if>
 
 </xsl:template>
@@ -170,9 +169,25 @@ CREATE TABLE </xsl:text><xsl:value-of select="@name"/><xsl:text> (
   <xsl:text>
 ALTER TABLE </xsl:text><xsl:value-of select="../@name"/><xsl:text>
   ADD CONSTRAINT  </xsl:text>
-  <xsl:value-of select="../@name"/>_<xsl:value-of select="@name"/><xsl:value-of select="$refSuffix"/>
+
+  <xsl:choose>
+     <xsl:when test="@name=preceding-sibling::attribute/@name or @name=following-sibling::attribute/@name">
+       <xsl:value-of select="../@name"/>_<xsl:value-of select="@relationship"/>_<xsl:value-of select="@name"/><xsl:value-of select="$refSuffix"/>
+     </xsl:when>
+     <xsl:otherwise>
+       <xsl:value-of select="../@name"/>_<xsl:value-of select="@name"/><xsl:value-of select="$refSuffix"/>
+     </xsl:otherwise>
+  </xsl:choose>
+
     <xsl:text> FOREIGN KEY (</xsl:text>
-  <xsl:value-of select="@name"/>
+    <xsl:choose>
+       <xsl:when test="@name=preceding-sibling::attribute/@name or @name=following-sibling::attribute/@name">
+         <xsl:value-of select="@relationship"/><xsl:text>_</xsl:text><xsl:value-of select="@name"/>
+       </xsl:when>
+       <xsl:otherwise>
+         <xsl:value-of select="@name"/>
+       </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>)</xsl:text>
   <xsl:text> REFERENCES </xsl:text><xsl:value-of select="@name"/>
   <xsl:text> (</xsl:text>

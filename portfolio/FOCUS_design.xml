@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-Created by compEAReDesign: 20190313_221059
+Created by compEAReDesign: 20190314_023447
 
 Based on EARe design...
 Rideshare:
@@ -23,7 +23,7 @@ Ride(#id, is>Status, carries>Van, acceptes>Driver, >Request+, created:TIMESTAMP)
 1, 2, 942FLQ, 1078591, n/a, CURRENT
 
 Request(#id, from>Address, to>Address, is>Status, num_of_people:INT, >User, gets>Ride?, created:TIMESTAMP) -number of people cant be more than number of seats available
-1, 1, 2, 1, 6, 1, 1, CURRENT
+1, 1, 2, 1, 6, multikedir, 1, CURRENT
 
 Van(#plate_number, fuel:INT, num_of_seat:INT, >Ride*, >Location+, belongs>VanNotes*) -any mechanical issues are added in note
 942FLQ, 80, 12, n/a, n/a, n/a

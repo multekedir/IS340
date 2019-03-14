@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-Created by compEAReData: 20190313_221059
+Created by compEAReData: 20190314_023448
 
 Based on EARe design...
 Rideshare:
@@ -96,7 +96,7 @@ Status(#id, description:STR, >Request*, >Ride*) -list of status
     <Address>2</Address>
     <Status>1</Status>
     <num_of_people>6</num_of_people>
-    <User>1</User>
+    <User>multikedir</User>
     <Ride>1</Ride>
     <created>CURRENT</created>
   </Request>

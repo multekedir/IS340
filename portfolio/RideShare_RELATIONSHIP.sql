@@ -22,7 +22,8 @@ ALTER TABLE User
 ALTER TABLE Driver
   ADD CONSTRAINT  Driver_Person_FK FOREIGN KEY (Person) REFERENCES Person (id)
 ;
-
+/*
+Removed this two because the relationship has been created alredy in User and Driver
 ALTER TABLE Person
   ADD CONSTRAINT  Person_User_FK FOREIGN KEY (User) REFERENCES User (username)
 ;
@@ -30,7 +31,7 @@ ALTER TABLE Person
 ALTER TABLE Person
   ADD CONSTRAINT  Person_Driver_FK FOREIGN KEY (Driver) REFERENCES Driver (licence_number)
 ;
-
+*/
 ALTER TABLE Ride
   ADD CONSTRAINT  Ride_Status_FK FOREIGN KEY (Status) REFERENCES Status (id)
 ;
@@ -44,11 +45,11 @@ ALTER TABLE Ride
 ;
 
 ALTER TABLE Request
-  ADD CONSTRAINT  Request_Address_FK FOREIGN KEY (Address) REFERENCES Address (id)
+  ADD CONSTRAINT  Request_from_Address_FK FOREIGN KEY (from_Address) REFERENCES Address (id)
 ;
 
 ALTER TABLE Request
-  ADD CONSTRAINT  Request_Address_FK FOREIGN KEY (Address) REFERENCES Address (id)
+  ADD CONSTRAINT  Request_to_Address_FK FOREIGN KEY (to_Address) REFERENCES Address (id)
 ;
 
 ALTER TABLE Request

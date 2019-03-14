@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS Rideshare;
-/*  Schema types (schemaTypes):
+    /*  Schema types (schemaTypes):
       ENTITY
     Design data types mapped to SQL data types (dataTypes):
       ID=CHAR(10);REF=CHAR(10);VARCHAR=VARCHAR(32);TIMESTAMP=TIMESTAMP;INT=INT;STR=TEXT;DATE=DATE;NAME=CHAR(20);PHONE=VARCHAR(12);BIT=BIT;CITY=CHAR(15);STATE=CHAR(2)

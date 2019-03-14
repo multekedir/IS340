@@ -39,7 +39,7 @@ INSERT INTO Ride VALUES (
 /*  Request( id, Address, Address, Status, num_of_people, User, Ride, created )
 */
 INSERT INTO Request VALUES (
-  1, 1, 2, 1, 6, 1, 1, NOW() );
+  1, 1, 2, 1, 6, 'multikedir', 1, NOW() );
 
 /*  Van( plate_number, fuel, num_of_seat, [n/a:Ride], [n/a:Location], [n/a:VanNotes] )
 */
